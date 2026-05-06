@@ -326,7 +326,7 @@ class RFLDAEnsembleClassifier:
                         if best_pred is None:
                             best_pred = (y_pred_proba >= 0.5).astype(int)
 
-                        # Calculate metrics using best prediction LOO results
+                        # Calculate metrics using best prediction CV results
                         try:
                             f1 = f1_score(y_val_cv, best_pred)
                             f1_scores.append(f1)
@@ -502,7 +502,7 @@ class RFLDAEnsembleClassifier:
                         if best_pred is None:
                             best_pred = (y_pred_proba >= 0.5).astype(int)
 
-                        # Calculate metrics using best prediction LOO results
+                        # Calculate metrics using best prediction CV results
                         try:
                             f1 = f1_score(y_val_cv, best_pred)
                             f1_scores.append(f1)
@@ -697,7 +697,7 @@ class RFLDAEnsembleClassifier:
             fold_idx: Fold number
 
         Returns:
-            dict: Dictionary containing LOO results
+            dict: Dictionary containing CV results
         """
         try:
             X_train, X_test = X[train_index], X[test_index]
@@ -789,7 +789,7 @@ class RFLDAEnsembleClassifier:
             fnr = fn / (fn + tp) if (fn + tp) > 0 else 0
             fpr_val = fp / (fp + tn) if (fp + tn) > 0 else 0
 
-            # Return LOO results
+            # Return CV results
             return {
                 "fold_idx": fold_idx,
                 "y_test": y_test,
@@ -831,7 +831,7 @@ class RFLDAEnsembleClassifier:
             import traceback
             logging.error(traceback.format_exc())
 
-            # Return placeholder LOO results
+            # Return placeholder CV results
             return {
                 "fold_idx": fold_idx,
                 "error": str(e),
@@ -1104,7 +1104,7 @@ class RFLDAEnsembleClassifier:
 
     def save_results(self, fold_results, class_name):
         """
-        Save LOO results to Excel
+        Save CV results to Excel
 
         Args:
             fold_results: Results from all folds
@@ -1171,7 +1171,7 @@ class RFLDAEnsembleClassifier:
                 # Add additional ensemble metrics to a new sheet
                 pd.DataFrame([ensemble_summary]).to_excel(writer, sheet_name='Ensemble_Details', index=False)
 
-                # 2. Save detailed LOO results for each fold
+                # 2. Save detailed CV results for each fold
                 fold_data = []
                 for r in fold_results:
                     if 'error' in r:
@@ -1243,7 +1243,7 @@ class RFLDAEnsembleClassifier:
 
             logging.info(f"Results saved to: {output_path}")
         except Exception as e:
-            logging.error(f"Error saving LOO results: {str(e)}")
+            logging.error(f"Error saving CV results: {str(e)}")
 
     def format_excel_file(self, file_path):
         """Format Excel file with Times New Roman font and bold headers"""
@@ -1324,14 +1324,14 @@ class RFLDAEnsembleClassifier:
                     })
 
         if not results:
-            logging.error("No LOO results generated, please check error messages above.")
+            logging.error("No CV results generated, please check error messages above.")
             return
 
-        # Filter out LOO results without errors
+        # Filter out CV results without errors
         valid_results = [r for r in results if 'error' not in r]
 
         if not valid_results:
-            logging.error("All folds failed, cannot generate valid LOO results")
+            logging.error("All folds failed, cannot generate valid CV results")
             return
 
         # Plot ROC curves
@@ -1340,8 +1340,8 @@ class RFLDAEnsembleClassifier:
         # Plot confusion matrix
         self.plot_confusion_matrix(valid_results, 'LuC')
 
-        # Save LOO results
-        self.save_results(results, 'LuC')  # Save all LOO results, including errors
+        # Save CV results
+        self.save_results(results, 'LuC')  # Save all CV results, including errors
 
         # Calculate average performance metrics
         if valid_results:

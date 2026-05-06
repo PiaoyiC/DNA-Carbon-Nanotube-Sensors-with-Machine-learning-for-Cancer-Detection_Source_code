@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -48,7 +49,7 @@ def analyze_single_sheet_correlation(input_file, sheet_name, r_threshold=0.7, p_
     significant_pairs = []
     all_comparisons = []
 
-    # Calculate p-values and collect all comparison LOO results
+    # Calculate p-values and collect all comparison results
     for i in range(n_features):
         for j in range(i + 1, n_features):
             rho, p = stats.spearmanr(data.iloc[:, i], data.iloc[:, j])
@@ -75,7 +76,7 @@ def analyze_single_sheet_correlation(input_file, sheet_name, r_threshold=0.7, p_
             p_values, alpha=p_threshold, method=correction_method
         )
 
-        # Update comparison LOO results and build corrected p-value matrix
+        # Update comparison results and build corrected p-value matrix
         for idx, comp in enumerate(all_comparisons):
             comp['P_value_corrected'] = p_corrected[idx]
             comp['Significant'] = rejected[idx]
@@ -133,7 +134,7 @@ def analyze_single_sheet_correlation(input_file, sheet_name, r_threshold=0.7, p_
             columns=['Feature1', 'Feature2', 'Spearman_rho', 'P_value_raw', 'P_value_corrected', 'Significant',
                      'Strength'])
 
-    # Create DataFrame for all comparison LOO results for saving
+    # Create DataFrame for all comparison results for saving
     all_results_df = pd.DataFrame(all_comparisons)
     if not all_results_df.empty:
         all_results_df = all_results_df.sort_values(by='P_value_corrected')
@@ -169,7 +170,7 @@ def get_correction_reference(method):
 
 def save_results(correlation_matrix, p_matrix_raw, p_matrix_corrected, significant_df, all_results_df, output_file,
                  sheet_name, correction_method):
-    """Save analysis LOO results to Excel file"""
+    """Save analysis results to Excel file"""
     with pd.ExcelWriter(output_file) as writer:
         # Save Spearman correlation matrix
         correlation_matrix.round(3).to_excel(writer, sheet_name=f'{sheet_name}_Spearman_Corr')
@@ -180,7 +181,7 @@ def save_results(correlation_matrix, p_matrix_raw, p_matrix_corrected, significa
         # Save corrected p-value matrix
         p_matrix_corrected.round(6).to_excel(writer, sheet_name=f'{sheet_name}_P_Values_Corrected')
 
-        # Save all comparison LOO results (including correction information)
+        # Save all comparison results (including correction information)
         all_results_df.to_excel(writer, sheet_name=f'{sheet_name}_All_Results', index=False)
 
         # Save significant feature pairs
@@ -202,8 +203,8 @@ def save_results(correlation_matrix, p_matrix_raw, p_matrix_corrected, significa
 def main():
     # Configuration parameters
     config = {
-        'input_file': r"",  # Path to the input Excel file containing training data
-        'output_file': r'',  # Directory path for saving output LOO results
+        'input_file': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Source data for Mechanism analysis.xlsx'),  # Path to the input Excel file containing training data
+        'output_file': os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Results', 'Multicancer detection', '04_Mechanism analysis', 'mantel_cnts_self_correlation.xlsx'),  # Output file path for saving results
         'sheet_name': 'All',
         'r_threshold': 0.7,  # Correlation coefficient threshold
         'p_threshold': 0.05,  # P-value threshold
@@ -222,8 +223,8 @@ def main():
         config['correction_method']
     )
 
-    # Save LOO results
-    print("\nSaving LOO results...")
+    # Save results
+    print("\nSaving results...")
     save_results(
         correlation_matrix,
         p_matrix_raw,
@@ -235,7 +236,7 @@ def main():
         config['correction_method']
     )
 
-    # Print LOO results summary
+    # Print results summary
     print(f"\nResults saved to {config['output_file']}")
     print(f"\nAnalysis Summary:")
     print(f"- Correlation method: Spearman rank correlation")
@@ -255,7 +256,7 @@ def main():
         print("Consider:")
         print("1. Using a less conservative correction method (e.g., 'fdr_bh' instead of 'bonferroni')")
         print("2. Lowering the correlation threshold")
-        print("3. Using 'none' for correction to see raw LOO results")
+        print("3. Using 'none' for correction to see raw results")
 
 
 if __name__ == "__main__":

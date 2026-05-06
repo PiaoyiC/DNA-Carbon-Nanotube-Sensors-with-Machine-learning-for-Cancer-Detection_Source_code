@@ -1116,7 +1116,7 @@ class EnsembleClassifier:
 
                 results = [r for r in results if r is not None]
                 if not results:
-                    logging.warning(f"No valid LOO results for class {class_name}")
+                    logging.warning(f"No valid CV results for class {class_name}")
                     continue
 
                 # 5. Train final algorithms on full training dataset
@@ -1241,7 +1241,7 @@ class EnsembleClassifier:
                 # Store prediction probabilities
                 class_probabilities[class_name] = ensemble_proba
 
-            # Create prediction LOO results DataFrame
+            # Create prediction CV results DataFrame
             results_df = pd.DataFrame()
             results_df['Sample_ID'] = [f"Sample_{i + 1}" for i in range(len(rf_X_new))]
             results_df['True_Label'] = y_true
@@ -1356,7 +1356,7 @@ class EnsembleClassifier:
             # Plot ROC curves
             self.plot_external_roc_curves(y_true, class_probabilities)
 
-            # Save external validation LOO results
+            # Save external validation CV results
             output_path = os.path.join(self.config['output_path'], 'external_validation_results_GA.xlsx')
             with pd.ExcelWriter(output_path) as writer:
                 results_df.to_excel(writer, sheet_name='Predictions', index=False)

@@ -1410,7 +1410,7 @@ class EnsembleClassifier:
         plt.close()
 
     def save_results(self, all_results):
-        """Save LOO results to Excel - including ROC data and parameters"""
+        """Save CV results to Excel - including ROC data and parameters"""
         output_path = os.path.join(self.config['output_path'], self.config['output_filename'])
 
         with pd.ExcelWriter(output_path) as writer:
@@ -1455,7 +1455,7 @@ class EnsembleClassifier:
 
             pd.DataFrame(summary_data).to_excel(writer, sheet_name='Summary', index=False)
 
-            # 2. Save detailed LOO results for each class
+            # 2. Save detailed CV results for each class
             for class_name, results in all_results.items():
                 fold_data = []
                 for r in results:
@@ -1705,7 +1705,7 @@ class EnsembleClassifier:
                 # Stop spinner indicator
                 indicator.stop()
 
-                # Filter LOO results
+                # Filter CV results
                 results = [r for r in results if r is not None]
                 if not results:
                     print(f"All folds failed for class {class_name}")
@@ -1723,7 +1723,7 @@ class EnsembleClassifier:
                 specificity_scores = [r['specificity'] for r in results]
                 auc_scores = [r['roc_auc'] for r in results]
 
-                # Output LOO results
+                # Output CV results
                 print(f"Completed! {len(results)} folds processed [Actual time: {actual_time:.1f}s]")
                 print(f"   Results: F1={np.mean(f1_scores):.3f}±{np.std(f1_scores):.3f}, "
                       f"Sens={np.mean(sensitivity_scores):.3f}±{np.std(sensitivity_scores):.3f}, "
@@ -1748,7 +1748,7 @@ class EnsembleClassifier:
         total_time = time_estimator.get_total_time()
         print(f"Training completed! Total runtime: {total_time:.1f}s ({total_time / 60:.1f} minutes)")
 
-        # Generate charts and save LOO results
+        # Generate charts and save CV results
         if all_results:
             self.plot_combined_roc_curves(all_results)
             self.save_results(all_results)
@@ -1764,7 +1764,7 @@ class EnsembleClassifier:
 
             return all_results
         else:
-            print("No LOO results generated.")
+            print("No CV results generated.")
             return {}
 
     def _process_fold_wrapper(self, rf_data, xgb_data, train_index, test_index, positive_class, fold_idx):
@@ -1959,7 +1959,7 @@ def main():
             print(f"Evolution History: GA_Evolution_History.txt")
             print(f"Contents: ROC data, parameter records, evolution process")
         else:
-            print("No LOO results generated")
+            print("No CV results generated")
 
     except Exception as e:
         print(f"Program execution error: {str(e)}")

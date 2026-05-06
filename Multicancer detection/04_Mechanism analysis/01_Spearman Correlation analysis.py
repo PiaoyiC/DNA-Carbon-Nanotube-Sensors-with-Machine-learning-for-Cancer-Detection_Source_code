@@ -37,7 +37,7 @@ def analyze_tumor_markers_correlation(input_file, output_file, p_threshold=0.1, 
             'dwl(9,1)', 'dwl(8,3)', 'dwl(7,5)', 'dwl(7,3)', 'dwl(6,5)', 'dwl(6,4)'
         ]
 
-        # Initialize summary LOO results list
+        # Initialize summary results list
         all_results = []
 
         # Read all sheet names from Excel file
@@ -117,7 +117,7 @@ def analyze_tumor_markers_correlation(input_file, output_file, p_threshold=0.1, 
                         else:
                             strength = "Weak"
 
-                        # Add to LOO results
+                        # Add to results
                         all_results.append({
                             'Cancer Type': sheet_name.split(' ')[0],
                             'Tumor Marker': marker,
@@ -134,9 +134,9 @@ def analyze_tumor_markers_correlation(input_file, output_file, p_threshold=0.1, 
                 print(f"Error processing sheet {sheet_name}: {str(e)}")
                 continue
 
-        # Check if any LOO results exist
+        # Check if any results exist
         if not all_results:
-            raise ValueError("No valid correlation LOO results were obtained from any sheet.")
+            raise ValueError("No valid correlation results were obtained from any sheet.")
 
         # Create summary DataFrame
         results_df = pd.DataFrame(all_results)
@@ -192,7 +192,7 @@ def analyze_tumor_markers_correlation(input_file, output_file, p_threshold=0.1, 
 
         # Save to Excel
         with pd.ExcelWriter(output_path, engine='xlsxwriter') as writer:
-            # Save summary LOO results
+            # Save summary results
             results_df.to_excel(writer, sheet_name='All Correlations', index=False)
 
             # Get workbook and worksheet objects
@@ -336,8 +336,8 @@ def analyze_tumor_markers_correlation(input_file, output_file, p_threshold=0.1, 
 if __name__ == "__main__":
     # Configuration parameters
     config = {
-        'input_file': r"",  # Path to the input Excel file containing training data
-        'output_file': '',  # Name of the sheet in the Excel file (e.g., 'Sheet1')
+        'input_file': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Source data for Mechanism analysis.xlsx'),  # Path to the input Excel file containing training data
+        'output_file': os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Results', 'Multicancer detection', '04_Mechanism analysis', 'spearman_correlation_results.xlsx'),  # Output file path for saving results
         'p_threshold': 0.1,  # Significance threshold
         'dpi': 600  # Image DPI
     }

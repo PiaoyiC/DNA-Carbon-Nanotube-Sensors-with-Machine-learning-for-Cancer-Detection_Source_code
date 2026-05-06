@@ -44,3 +44,6 @@ Results/**/*.xls
 *.tmp
 *.bak
 *~
+
+# Scripts not included in submission
+Multicancer detection/03_Ensemble/Learning_Curve_Ensemble.py

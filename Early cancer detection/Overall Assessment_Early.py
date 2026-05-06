@@ -654,7 +654,7 @@ class CancerPredictionEvaluator:
             fpr_val = fp / (fp + tn) if (fp + tn) > 0 else 0
 
             logging.info(
-                f"{algorithm_key} fold {fold_idx + 1} LOO results - F1: {test_f1:.4f}, AUC: {roc_auc:.4f}, "
+                f"{algorithm_key} fold {fold_idx + 1} CV results - F1: {test_f1:.4f}, AUC: {roc_auc:.4f}, "
                 f"Sensitivity: {test_sensitivity:.4f}, Specificity: {test_specificity:.4f}"
             )
 
@@ -731,7 +731,7 @@ class CancerPredictionEvaluator:
         plt.xlabel("False Positive Rate", fontsize=24, labelpad=10, fontname='Arial')
         plt.ylabel("True Positive Rate", fontsize=24, labelpad=10, fontname='Arial')
 
-        # Process LOO results by algorithm
+        # Process CV results by algorithm
         algorithm_mean_results = {}
 
         for algorithm_key in self.algorithms.keys():
@@ -786,7 +786,7 @@ class CancerPredictionEvaluator:
                                  color=self.algorithm_colors.get(algorithm_key, 'b'),
                                  alpha=0.2)
 
-                # Store mean LOO results for later use
+                # Store mean CV results for later use
                 algorithm_mean_results[algorithm_key] = {
                     'mean_fpr': mean_fpr,
                     'mean_tpr': mean_tpr,
@@ -826,10 +826,10 @@ class CancerPredictionEvaluator:
         return algorithm_mean_results
 
     def save_results(self, all_results, algorithm_mean_roc=None):
-        """Save LOO results to Excel focusing on algorithm performance"""
+        """Save CV results to Excel focusing on algorithm performance"""
         output_path = os.path.join(self.config['output_path'], self.config['output_filename'])
 
-        # Prepare LOO results by algorithm
+        # Prepare CV results by algorithm
         algorithm_summary = {}
 
         for algorithm_key, results_list in all_results.items():
@@ -889,7 +889,7 @@ class CancerPredictionEvaluator:
             # Write summary of all algorithms
             summary_df.to_excel(writer, sheet_name='Algorithm_Summary', index=False)
 
-            # Write detailed LOO results by algorithm
+            # Write detailed CV results by algorithm
             for algorithm_key, results_list in all_results.items():
                 algorithm_name = self.algorithms[algorithm_key]['name']
 
@@ -980,7 +980,7 @@ class CancerPredictionEvaluator:
         # Create cross-validation object
         outer_cv = StratifiedKFold(n_splits=self.config['outer_cv_splits'], shuffle=True, random_state=42)
 
-        # Store LOO results for all algorithms
+        # Store CV results for all algorithms
         all_algorithm_results = {}
 
         # Process each algorithm
@@ -1004,9 +1004,9 @@ class CancerPredictionEvaluator:
                     for fold_idx, (train_idx, test_idx) in fold_indices
                 )
 
-                # Skip if no valid LOO results
+                # Skip if no valid CV results
                 if not results:
-                    logging.warning(f"No valid LOO results for {algo_info['name']}. Skipping.")
+                    logging.warning(f"No valid CV results for {algo_info['name']}. Skipping.")
                     continue
 
                 algorithm_results = results
@@ -1031,23 +1031,23 @@ class CancerPredictionEvaluator:
                 logging.error(traceback.format_exc())
                 continue
 
-            # Store LOO results for this algorithm
+            # Store CV results for this algorithm
             if algorithm_results:
                 all_algorithm_results[algorithm_key] = algorithm_results
                 logging.info(f"Completed processing {algo_info['name']}")
             else:
-                logging.error(f"No LOO results generated for {algo_info['name']}. Check for errors above.")
+                logging.error(f"No CV results generated for {algo_info['name']}. Check for errors above.")
 
         # Plot ROC curves for all algorithms
         if all_algorithm_results:
             algorithm_mean_roc = self.plot_algorithm_roc_curve(all_algorithm_results)
 
-            # Save LOO results to Excel
+            # Save CV results to Excel
             self.save_results(all_algorithm_results, algorithm_mean_roc)
 
             return all_algorithm_results
         else:
-            logging.error("No LOO results were generated for any algorithm. Check for errors above.")
+            logging.error("No CV results were generated for any algorithm. Check for errors above.")
             return {}
 
 
@@ -1055,9 +1055,9 @@ def main():
     """Main function"""
     # Configuration parameters
     config = {
-        'file_path': r"",  # Path to the input Excel file containing training data
+        'file_path': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'TS Train.xlsx'),  # Path to the input Excel file containing training data
         'sheet_name': '',  # Name of the sheet in the Excel file (e.g., 'Sheet1')
-        'output_path': r'',  # Directory path for saving output LOO results
+        'output_path': os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'Results', 'Early cancer detection'),  # Directory path for saving output results
         'output_filename': 'Cancer_Prediction_Results.xlsx',
 
         # Cross-validation configuration

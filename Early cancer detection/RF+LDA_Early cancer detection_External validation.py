@@ -186,7 +186,7 @@ class ExtendedEnsembleValidator:
             raise
 
     def train_ensemble_classifier(self):
-        """Train and obtain cross-validation LOO results"""
+        """Train and obtain cross-validation CV results"""
         model_config = {
             'file_path': self.training_data_path,
             'sheet_name': self.training_sheet_name,
@@ -208,7 +208,7 @@ class ExtendedEnsembleValidator:
         cv_results = ensemble.run()
 
         if not cv_results:
-            raise ValueError("Cross-validation training failed, no LOO results returned")
+            raise ValueError("Cross-validation training failed, no CV results returned")
 
         return cv_results
 
@@ -684,7 +684,7 @@ class ExtendedEnsembleValidator:
         # 4. Calculate metrics
         mean_results = self._calculate_mean_results(all_results)
 
-        # 5. Save LOO results
+        # 5. Save CV results
         self._save_multiple_run_results(all_results, mean_results, all_roc_data)
 
         print(f"\nValidation completed!")
@@ -715,11 +715,11 @@ class ExtendedEnsembleValidator:
 
     def _save_multiple_run_results(self, all_results, mean_results, all_roc_data):
 
-        # Save detailed LOO results to Excel
+        # Save detailed CV results to Excel
         results_path = os.path.join(self.output_path, 'multiple_validation_results.xlsx')
 
         with pd.ExcelWriter(results_path) as writer:
-            # Save individual run LOO results
+            # Save individual run CV results
             run_data = []
             for i, result in enumerate(all_results):
                 run_data.append({

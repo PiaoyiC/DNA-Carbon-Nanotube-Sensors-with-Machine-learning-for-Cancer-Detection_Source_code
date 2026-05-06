@@ -118,7 +118,7 @@ def calculate_permutation_importance(ensemble_model, X, y, positive_class, featu
 
         feature_scores = []
 
-        # Repeat multiple times for stable LOO results
+        # Repeat multiple times for stable results
         for repeat in range(n_repeats):
             logging.debug(f"Repeat {repeat + 1}/{n_repeats}")
 
@@ -204,7 +204,7 @@ def save_importance_scores(importance_scores_dict, feature_names, output_path):
     """
     Save feature importance scores for all classes to Excel file
     """
-    # Create DataFrame with LOO results for all classes
+    # Create DataFrame with results for all classes
     results_dict = {'Feature Name': feature_names}
     for class_name, scores in importance_scores_dict.items():
         results_dict[f'Importance_{class_name}'] = scores
@@ -229,9 +229,9 @@ def save_importance_scores(importance_scores_dict, feature_names, output_path):
 
 def main():
     # Set input and output paths
-    input_file_path = r"",  # Path to the input Excel file containing training data
+    input_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '00_Data', 'Train.xlsx'),  # Path to the input Excel file containing training data
     sheet_name = '',  # Name of the sheet in the Excel file (e.g., 'Sheet1')
-    output_path = r'',  # Directory path for saving output LOO results
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Results', 'Multicancer detection', '03_Ensemble')  # Directory path for saving output results
 
     # Create output directory
     os.makedirs(output_path, exist_ok=True)
@@ -364,12 +364,12 @@ def main():
     for idx in sorted_indices:
         logging.info(f"{feature_names[idx]}: {combined_perm_scores[idx]:.4f}")
 
-    # Save permutation importance LOO results
-    logging.info("\nSaving permutation feature importance LOO results...")
+    # Save permutation importance results
+    logging.info("\nSaving permutation feature importance results...")
     plot_feature_importance(permutation_importance_scores_dict, feature_names, output_path)
     save_importance_scores(permutation_importance_scores_dict, feature_names, output_path)
 
-    logging.info(f"\nAnalysis LOO results saved to folder: {output_path}")
+    logging.info(f"\nAnalysis results saved to folder: {output_path}")
     logging.info("- Per-class permutation feature importance charts: feature_importance_permutation_[class_name].png")
     logging.info("- Combined permutation feature importance chart: feature_importance_permutation_Combined.png")
     logging.info("- Permutation feature importance scores: feature_importance_permutation_scores.xlsx")

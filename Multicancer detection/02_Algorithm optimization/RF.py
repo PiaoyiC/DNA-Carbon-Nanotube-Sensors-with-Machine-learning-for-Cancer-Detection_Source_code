@@ -991,7 +991,7 @@ class RandomForestModel:
         wb.save(file_path)
 
     def save_results(self, all_results):
-        """Save LOO results to Excel"""
+        """Save CV results to Excel"""
         output_path = os.path.join(self.config['output_path'],
                                    self.config['output_filename'])
 
@@ -1048,7 +1048,7 @@ class RandomForestModel:
                                                 sheet_name='Summary',
                                                 index=False)
 
-            # 2. Save detailed LOO results for each class
+            # 2. Save detailed CV results for each class
             for class_name, results in all_results.items():
                 # Basic evaluation metrics
                 fold_data = []
@@ -1168,9 +1168,9 @@ class RandomForestModel:
                     for fold_idx, (train_idx, test_idx) in fold_indices
                 )
 
-                # If no valid LOO results, skip
+                # If no valid CV results, skip
                 if not results:
-                    logging.warning("No valid LOO results for class {}. Skipping.".format(class_name))
+                    logging.warning("No valid CV results for class {}. Skipping.".format(class_name))
                     continue
 
                 all_results[class_name] = results
@@ -1204,12 +1204,12 @@ class RandomForestModel:
                 logging.error(traceback.format_exc())
                 # Continue processing other classes
 
-        # Save LOO results
+        # Save CV results
         if all_results:
             self.save_results(all_results)
             return all_results
         else:
-            logging.error("No LOO results were generated. Check for errors above.")
+            logging.error("No CV results were generated. Check for errors above.")
             return {}
 
 
@@ -1274,7 +1274,7 @@ def main():
         classifier = RandomForestModel(config)
         results = classifier.run()
 
-        # Output final LOO results summary
+        # Output final CV results summary
         logging.info("Training completed successfully!")
 
     except Exception as e:

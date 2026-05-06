@@ -401,7 +401,7 @@ def select_samples_for_force_plot(X, y, class_name, feature_processor):
 
 
 def analyze_shap_importance(X, y, class_names, output_path, config):
-    """Calculate SHAP importance and save LOO results"""
+    """Calculate SHAP importance and save results"""
     # Get original feature names
     original_feature_names = X.columns
     all_results = {
@@ -456,7 +456,7 @@ def analyze_shap_importance(X, y, class_names, output_path, config):
         # Calculate feature importance
         feature_importance = np.abs(shap_values).mean(axis=0)
 
-        # Store LOO results
+        # Store results
         all_results[f'Importance_{class_name}'] = feature_importance
         all_results['Mean_Importance'] += feature_importance
 
@@ -555,9 +555,9 @@ def analyze_shap_importance(X, y, class_names, output_path, config):
 
 def main():
     # Set paths
-    input_file_path = r"",  # Path to the input Excel file containing training data
+    input_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '00_Data', 'Train.xlsx'),  # Path to the input Excel file containing training data
     sheet_name = '',  # Name of the sheet in the Excel file (e.g., 'Sheet1')
-    output_path = r'',  # Directory path for saving output LOO results
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Results', 'Multicancer detection', '03_Ensemble')  # Directory path for saving output results
 
     # Create output directory
     os.makedirs(output_path, exist_ok=True)
@@ -653,16 +653,16 @@ def main():
         'all_classes': class_names,
     }
 
-    # Perform SHAP analysis and save LOO results
+    # Perform SHAP analysis and save results
     print("\nStarting SHAP analysis")
     print("=" * 80)
     results_df = analyze_shap_importance(X, y, class_names, output_path, config)
 
-    print(f"\nAnalysis LOO results saved to folder: {output_path}")
+    print(f"\nAnalysis results saved to folder: {output_path}")
     print("Output files:")
     print("- Per-class SHAP analysis plots: shap_summary_[class_name].svg")
     print("- Per-class SHAP force plots: force_plot_[class_name]_[positive/negative]_sample[index].svg")
-    print("- Feature importance LOO results: ensemble_shap_importance_results.xlsx")
+    print("- Feature importance results: ensemble_shap_importance_results.xlsx")
     print("  - Sheet 1: Feature_Importance - Feature importance values")
     print("  - Sheet 2: Force_Plot_Data - Force plot data")
 

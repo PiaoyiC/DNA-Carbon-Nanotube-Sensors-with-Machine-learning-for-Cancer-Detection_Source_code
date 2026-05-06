@@ -236,7 +236,7 @@ def run_cancer_analysis(input_file_path, output_file_path, method='spearman',
             if len(cleaned_markers) < 5:
                 print(f"   WARNING: Only {len(cleaned_markers)} samples. Results may be unreliable!")
 
-            # Store LOO results for this cancer type
+            # Store results for this cancer type
             cancer_results = []
 
             # Perform Mantel test for each sensor feature
@@ -290,7 +290,7 @@ def run_cancer_analysis(input_file_path, output_file_path, method='spearman',
                 # FDR correction
                 adjusted_p, rejected = apply_fdr_correction(p_values, alpha=fdr_threshold)
 
-                # Update LOO results
+                # Update results
                 for i, idx in enumerate(indices):
                     results[idx]['Adjusted P-value (FDR)'] = round(adjusted_p[i], 4)
                     results[idx]['FDR Significant'] = bool(rejected[i])
@@ -359,10 +359,10 @@ def run_cancer_analysis(input_file_path, output_file_path, method='spearman',
         output_dir = output_path.parent
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Save LOO results to Excel
-        print(f"\nSaving LOO results to Excel...")
+        # Save results to Excel
+        print(f"\nSaving results to Excel...")
         with pd.ExcelWriter(output_path, engine='xlsxwriter') as writer:
-            # Main LOO results table
+            # Main results table
             results_df.to_excel(writer, sheet_name='Mantel Results', index=False)
 
             # Get workbook and worksheet objects
@@ -439,7 +439,7 @@ def run_cancer_analysis(input_file_path, output_file_path, method='spearman',
 
         print(f"Results saved to: {output_path}")
 
-        # Display FDR significant LOO results
+        # Display FDR significant results
         if sig_fdr > 0:
             print(f"\nFDR Significant Results ({sig_fdr} total):")
             print("=" * 80)
@@ -473,8 +473,8 @@ def main():
     """
     # Configuration parameters
     config = {
-        'input_file': r"",  # Path to the input Excel file containing training data
-        'output_file': r'',  # Directory path for saving output LOO results  # Output file path
+        'input_file': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Source data for Mechanism analysis.xlsx'),  # Path to the input Excel file containing training data
+        'output_file': os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Results', 'Multicancer detection', '04_Mechanism analysis', 'mantel_correlation_analysis.xlsx'),  # Output file path for saving results
 
         # Mantel test parameters
         'method': 'spearman',          # 'spearman' (recommended) or 'pearson'
