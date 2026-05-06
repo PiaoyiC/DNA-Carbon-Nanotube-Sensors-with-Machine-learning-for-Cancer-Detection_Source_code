@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-*
+
+# Operating Systems
+.DS_Store
+Thumbs.db
+
+# Output files
+Results/
+output/
+*.log
+
+# Data files (exclude generated results, keep source data)
+Results/**/*.xlsx
+Results/**/*.xls
+*.csv
+
+# Model files
+*.pkl
+*.joblib
+*.h5
+*.pt
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.bak
+*~

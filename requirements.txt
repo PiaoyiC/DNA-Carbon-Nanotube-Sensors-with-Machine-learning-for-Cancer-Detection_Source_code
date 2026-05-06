@@ -1,0 +1,174 @@
+# ========================================================
+# Core Python Machine Learning Libraries
+# ========================================================
+
+# Data manipulation and analysis
+numpy==1.24.3
+pandas==2.1.4
+scipy==1.10.0
+
+# Machine learning core
+scikit-learn==1.1.3
+scikit-learn-intelex==2023.1.1
+
+# Ensemble methods
+xgboost==2.0.3
+lightgbm==3.3.5
+
+# Deep learning (for ANN models)
+torch==2.3.0
+
+# ========================================================
+# Hyperparameter Optimization
+# ========================================================
+
+# Genetic Algorithm and optimization
+bayesian-optimization==1.4.3
+optuna==4.3.0
+hyperopt==0.2.7
+scikit-optimize==0.10.0
+
+# ========================================================
+# Feature Selection and Engineering
+# ========================================================
+
+# Boruta feature selection
+boruta==0.3
+
+# Imbalanced data handling
+imbalanced-learn==0.12.0
+
+# ========================================================
+# Model Interpretation and Explainability
+# ========================================================
+
+# SHAP for feature importance
+shap==0.46.0
+
+# ========================================================
+# Data Visualization
+# ========================================================
+
+matplotlib==3.10.0
+seaborn==0.13.2
+plotly==6.0.1
+kaleido==0.2.1
+
+# ========================================================
+# Statistical Analysis
+# ========================================================
+
+# Statistical testing
+statsmodels==0.14.2
+
+# Spatial analysis (for Mantel test)
+shapely==1.8.5
+
+# ========================================================
+# Data I/O and File Handling
+# ========================================================
+
+# Excel file handling
+openpyxl==3.0.10
+xlsxwriter==3.2.0
+xlrd==2.0.1
+
+# Other data formats
+h5py==3.12.1
+tables==3.10.2
+
+# ========================================================
+# Utilities and Tools
+# ========================================================
+
+# Progress bars and logging
+tqdm==4.67.1
+colorlog==6.9.0
+
+# Parallel processing
+joblib==1.4.2
+
+# Configuration and environment
+python-dotenv==1.1.0
+pyyaml==6.0.2
+
+# Jupyter notebook (optional, for exploration)
+jupyter==1.1.1
+notebook==7.3.2
+ipykernel==6.29.5
+
+# ========================================================
+# Development and Testing (Optional)
+# ========================================================
+
+# Code quality
+black==24.10.0
+flake8==6.0.0
+pylint==2.16.2
+
+# Testing
+pytest==8.3.4
+
+# ========================================================
+# System and Compatibility
+# ========================================================
+
+# General utilities
+pillow==11.1.0
+python-dateutil==2.9.0.post0
+
+# ========================================================
+# Installation Notes
+# ========================================================
+#
+# 1. Install using pip:
+#    pip install -r requirements.txt
+#
+# 2. Or using conda (recommended):
+#    conda create -n cancer_detection python=3.11.5
+#    conda activate cancer_detection
+#    pip install -r requirements.txt
+#
+# 3. For CUDA support (GPU acceleration for PyTorch):
+#    Replace "cpuonly==2.0" with appropriate CUDA version
+#    Example: pytorch-cuda==11.8
+#    Then reinstall pytorch with CUDA support:
+#    pip install torch --index-url https://download.pytorch.org/whl/cu118
+#
+# 4. Some packages may require system dependencies:
+#    - Windows: Microsoft Visual C++ 14.0 or greater
+#    - Linux: build-essential, python3-dev
+#    - macOS: Xcode Command Line Tools
+#
+# 5. If you encounter compatibility issues:
+#    - Try installing packages one by one
+#    - Check for conflicts using: pip check
+#    - Create a fresh conda environment
+#
+# ========================================================
+# Package Descriptions
+# ========================================================
+#
+# numpy: Numerical computing library for arrays and matrices
+# pandas: Data manipulation and analysis library
+# scipy: Scientific computing library (statistics, optimization)
+# scikit-learn: Machine learning algorithms (RF, SVM, LDA, etc.)
+# xgboost: Gradient boosting library (primary ensemble component)
+# lightgbm: Gradient boosting framework (alternative)
+# pytorch: Deep learning framework (for ANN models)
+# bayesian-optimization: Bayesian hyperparameter optimization
+# optuna: Hyperparameter optimization framework (TPE sampler)
+# hyperopt: Distributed hyperparameter optimization
+# scikit-optimize: Sequential algorithms-based optimization
+# boruta-py: Feature selection algorithm
+# imbalanced-learn: SMOTE and ADASYN for imbalanced data
+# shap: Model interpretability and feature importance
+# matplotlib: 2D plotting library
+# seaborn: Statistical data visualization
+# plotly: Interactive plotting library
+# statsmodels: Statistical models and tests
+# shapely: Geometric operations for Mantel test
+# openpyxl: Excel file reader/writer
+# joblib: Parallel computing and algorithms persistence
+#
+# ========================================================
