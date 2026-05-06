@@ -1,4 +1,4 @@
-# Cancer Liquid Biopsy Using Structurally Defined DNA–Carbon Nanotube Sensors
+# Integrating Structurally Defined DNA-Carbon Nanotube Sensors with Machine-learning for Cancer Detection
 
 This repository contains code and data files for reproducing the machine learning model training and testing results presented in Piaoyi Chen, Xin Zheng, Yinong Li, Jian Li, Xuan Zhou, Yawei Wen, Jialong Liu, Pengbo Wang, Xiaohui Li, Runzhe Chen, Zhiwei Lin (2025).
 
