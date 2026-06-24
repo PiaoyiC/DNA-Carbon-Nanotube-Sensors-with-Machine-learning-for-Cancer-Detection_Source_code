@@ -229,8 +229,8 @@ def save_importance_scores(importance_scores_dict, feature_names, output_path):
 
 def main():
     # Set input and output paths
-    input_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '00_Data', 'Train.xlsx'),  # Path to the input Excel file containing training data
-    sheet_name = '',  # Name of the sheet in the Excel file (e.g., 'Sheet1')
+    input_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '00_Data', 'Train.xlsx')  # Path to the input Excel file containing training data
+    sheet_name = ''  # Name of the sheet in the Excel file (e.g., 'Sheet1')
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Results', 'Multicancer detection', '03_Ensemble')  # Directory path for saving output results
 
     # Create output directory

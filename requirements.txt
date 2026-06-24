@@ -23,7 +23,7 @@ torch==2.3.0
 # ========================================================
 
 # Genetic Algorithm and optimization
-bayesian-optimization==1.4.3
+bayesian-optimization==1.5.1
 optuna==4.3.0
 hyperopt==0.2.7
 scikit-optimize==0.10.0
@@ -33,7 +33,7 @@ scikit-optimize==0.10.0
 # ========================================================
 
 # Boruta feature selection
-boruta==0.3
+boruta==0.4.3
 
 # Imbalanced data handling
 imbalanced-learn==0.12.0
