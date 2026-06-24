@@ -51,6 +51,14 @@ Source code for submission/
     └── RF+LDA_Early cancer detection_External validation.py  # External validation
 ```
 
+## One-Click Reproducibility (CodeOcean)
+
+This project is also available on CodeOcean with automatic environment setup:
+
+[![Open in Code Ocean](https://codeocean.com/codeocean-assets/badge/open-in-code-ocean.svg)](https://doi.org/10.24433/CO.3401353.v1)
+
+> The capsule is currently under review and will be activated upon publication.
+
 ## Installation
 
 **Requirements**: Python 3.10, Anaconda/Miniconda (recommended)
@@ -67,8 +75,6 @@ pip install -r requirements.txt
 ## Usage
 
 All file paths (input data and output directories) are automatically resolved relative to each script's location. No manual path configuration is required.
-
-If you use *Code Ocean*, simply set the corresponding script in the code directory as 'Set as file to run' and click the 'Reproducible Run' button for one-click reproducibility.
 
 ### Multicancer Detection
 
