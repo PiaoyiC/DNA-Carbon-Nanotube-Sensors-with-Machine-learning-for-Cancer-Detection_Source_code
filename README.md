@@ -55,7 +55,7 @@ Source code for submission/
 
 This project is also available on CodeOcean with automatic environment setup:
 
-[![Open in Code Ocean](https://codeocean.com/codeocean-assets/badge/open-in-code-ocean.svg)](https://doi.org/10.24433/CO.3401353.v1)
+[![Open in Code Ocean](https://codeocean.com/codeocean-assets/badge/open-in-code-ocean.svg)](https://codeocean.com/capsule/3401353/tree)
 
 > The capsule is currently under review and will be activated upon publication.
 
